@@ -31,10 +31,21 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                binding.pbLoading.setVisibility(View.VISIBLE);
+
                 Log.i(LOG_TAG, "onClick login button");
                 String username = binding.etUsername.getText().toString();
                 String password = binding.etPassword.getText().toString();
                 loginUser(username, password);
+            }
+        });
+
+        binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -51,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 goMainActivity();
                 Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+                finish();
+                binding.pbLoading.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -58,6 +71,5 @@ public class LoginActivity extends AppCompatActivity {
     private void goMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        finish();
     }
 }

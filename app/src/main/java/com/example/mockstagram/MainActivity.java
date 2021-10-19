@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         binding.btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                binding.pbLoading.setVisibility(View.VISIBLE);
                 String description = binding.etDescription.getText().toString();
                 if (description.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Description cannot be empty!", Toast.LENGTH_SHORT).show();
@@ -72,15 +73,12 @@ public class MainActivity extends AppCompatActivity {
         binding.btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logout();
+                ParseUser.logOut();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
-    }
-
-    private void logout() {
-        ParseUser.logOut();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 
     private void launchCamera() {
@@ -152,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(LOG_TAG, "Post save was successful!");
                 binding.etDescription.setText("");
                 binding.ivImage.setImageResource(0);
+                binding.pbLoading.setVisibility(View.INVISIBLE);
             }
         });
     }
