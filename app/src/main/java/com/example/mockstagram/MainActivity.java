@@ -104,10 +104,10 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
-                Bitmap rotatedImage = rotateImage(takenImage, 90);
+//                Bitmap rotatedImage = rotateImage(takenImage, 90);
 
                 ImageView ivPreview = (ImageView) binding.ivImage;
-                ivPreview.setImageBitmap(rotatedImage);
+                ivPreview.setImageBitmap(takenImage);
             } else { // Result was a failure
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
