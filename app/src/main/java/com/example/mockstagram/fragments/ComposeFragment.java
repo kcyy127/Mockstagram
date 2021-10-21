@@ -110,7 +110,6 @@ public class ComposeFragment extends Fragment {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, photoFile);
-                Toast.makeText(getContext(), "Submit " + description, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -118,7 +117,6 @@ public class ComposeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 launchCamera();
-                Toast.makeText(getContext(), "Take picture", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,7 +37,6 @@ public class PostsFragment extends Fragment {
     private FragmentPostsBinding binding;
 
     protected PostsAdapter adapter;
-    protected List<Post> allPosts;
 
     public PostsFragment() {
         // Required empty public constructor
@@ -61,16 +61,27 @@ public class PostsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        allPosts = new ArrayList<>();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        adapter = new PostsAdapter(getContext(), allPosts);
+        adapter = new PostsAdapter(getContext(), new ArrayList<>());
 
         binding.recyclerView.setLayoutManager(layoutManager);
         binding.recyclerView.setAdapter(adapter);
 
-
         queryPosts();
+
+        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                queryPosts();
+                binding.swipeContainer.setRefreshing(false);
+            }
+        });
+
+        binding.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
     }
 
@@ -92,11 +103,11 @@ public class PostsFragment extends Fragment {
                     Log.e(LOG_TAG, "Issue with getting posts", e);
                     return;
                 }
-                for (Post post : posts) {
-                    Log.i(LOG_TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-                }
-                allPosts.addAll(posts);
-                adapter.notifyDataSetChanged();
+//                for (Post post : posts) {
+//                    Log.i(LOG_TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
+//                }
+                adapter.clear();
+                adapter.addAll(posts);
             }
         });
     }

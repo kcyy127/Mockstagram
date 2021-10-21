@@ -27,11 +27,8 @@ public class ProfileFragment extends PostsFragment {
                     Log.e(LOG_TAG, "Issue with getting posts", e);
                     return;
                 }
-                for (Post post : posts) {
-                    Log.i(LOG_TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-                }
-                allPosts.addAll(posts);
-                adapter.notifyDataSetChanged();
+                adapter.clear();
+                adapter.addAll(posts);
             }
         });
     }
